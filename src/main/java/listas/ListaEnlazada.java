@@ -343,7 +343,17 @@ public class ListaEnlazada<T> {
      */
     public void invertir() {
         // TODO Etapa 8: use tres referencias: anterior, actual, siguiente.
-        throw new UnsupportedOperationException("TODO: invertir");
+        Nodo<T> anterior = null;
+        Nodo<T> actual = cabeza;
+
+        while (actual != null) {
+            Nodo<T> siguiente = actual.getSiguiente();
+            actual.setSiguiente(anterior);
+            anterior = actual;
+            actual = siguiente;
+        }
+
+        cabeza = anterior;
     }
 
     /**
@@ -355,7 +365,20 @@ public class ListaEnlazada<T> {
      */
     public T obtenerMedio() {
         // TODO Etapa 8: escriba su código aquí
-        throw new UnsupportedOperationException("TODO: obtenerMedio");
+        if (estaVacia()) {
+            throw new NoSuchElementException();
+        }
+
+        Nodo<T> lento = cabeza;
+        Nodo<T> rapido = cabeza;
+
+        while (rapido != null && rapido.getSiguiente() != null) {
+            lento = lento.getSiguiente();
+            rapido = rapido.getSiguiente().getSiguiente();
+        }
+
+        return lento.getDato();
+
     }
 
     /**
@@ -363,7 +386,24 @@ public class ListaEnlazada<T> {
      * de cada uno, conservando el orden. Ej.: [1,2,1,3,2] -> [1,2,3]
      */
     public void eliminarDuplicados() {
-        // TODO Etapa 8: escriba su código aquí
-        throw new UnsupportedOperationException("TODO: eliminarDuplicados");
+        Nodo<T> actual = cabeza;
+
+        while (actual != null) {
+            Nodo<T> anterior = actual;
+            Nodo<T> revisar = actual.getSiguiente();
+
+            while (revisar != null) {
+                if (java.util.Objects.equals(actual.getDato(), revisar.getDato())) {
+                    anterior.setSiguiente(revisar.getSiguiente());
+                    cantidad--;
+                    revisar = anterior.getSiguiente();
+                } else {
+                    anterior = revisar;
+                    revisar = revisar.getSiguiente();
+                }
+            }
+
+            actual = actual.getSiguiente();
+        }
     }
 }
